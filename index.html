@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robótica Innovadora</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a16;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(20, 20, 60, 0.6) 0%, transparent 30%),
+                radial-gradient(circle at 90% 70%, rgba(40, 40, 100, 0.6) 0%, transparent 30%);
+        }
+        
+        header {
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            animation: glow 3s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 0, 255, 0.5), 0 0 30px rgba(255, 0, 255, 0.3);
+            }
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #a0a0ee;
+        }
+        
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .robot-card {
+            width: 300px;
+            height: 380px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .robot-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.3);
+        }
+        
+        .card-front {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .robot-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 2px solid #00eeff;
+            box-shadow: 0 0 15px rgba(0, 238, 255, 0.5);
+        }
+        
+        .robot-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #00eeff;
+        }
+        
+        .robot-type {
+            font-size: 1rem;
+            color: #a0a0ee;
+        }
+        
+        .card-back {
+            background: linear-gradient(145deg, #16213e, #1a1a2e);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .robot-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .learn-more {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(to right, #00ffff, #ff00ff);
+            color: #0a0a16;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .learn-more:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.4);
+        }
+        
+        .floating-elements {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 200, 255, 0.1);
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            border-radius: 10px;
+            animation: float 15s infinite linear;
+        }
+        
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            width: 30px;
+            height: 30px;
+        }
+        
+        .floating-element:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .floating-element:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 4s;
+            width: 25px;
+            height: 25px;
+        }
+        
+        .floating-element:nth-child(4) {
+            bottom: 20%;
+            right: 25%;
+            animation-delay: 6s;
+            width: 35px;
+            height: 35px;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            color: #a0a0ee;
+            border-top: 1px solid rgba(0, 200, 255, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+    
+    <header>
+        <h1>FUTURO ROBÓTICO</h1>
+        <p class="subtitle">Explora el mundo de la robótica y la inteligencia artificial a través de estas increíbles creaciones tecnológicas.</p>
+    </header>
+    
+    <main>
+        <div class="gallery">
+            <!-- Robot 1 -->
+            <div class="robot-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Robot Industrial" class="robot-image">
+                        <h3 class="robot-name">AR-1000</h3>
+                        <p class="robot-type">Robot Industrial</p>
+                    </div>
+                    <div class="card-back">
+                        <p class="robot-description">El AR-1000 es un robot industrial de alta precisión diseñado para tareas de ensamblaje y manufactura en entornos automatizados.</p>
+                        <a href="file:///C:/Users/PC/OneDrive/Documents/20%20imagenes%20en%20ps/Seguinda%20paguina.html#specs" class="learn-more">Ver Mas</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Robot 2 -->
+            <div class="robot-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1489486501123-5c1af10d0be6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Robot Humanoide" class="robot-image">
+                        <h3 class="robot-name">NEXUS-9</h3>
+                        <p class="robot-type">Robot Humanoide</p>
+                    </div>
+                    <div class="card-back">
+                        <p class="robot-description">NEXUS-9 es un robot humanoide con inteligencia artificial avanzada capaz de interactuar con humanos y aprender de su entorno.</p>
+                        <a href="file:///C:/Users/PC/OneDrive/Documents/20%20imagenes%20en%20ps/tres%20paguina.html" class="learn-more">Ver Más</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Robot 3 -->
+            <div class="robot-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCNIEJgLThBLxnqGMyO8o9NY6y32ghNi0jAw&s" alt="Robot Médico" class="robot-image">
+                        <h3 class="robot-name">MED-BOT</h3>
+                        <p class="robot-type">Robot Médico</p>
+                    </div>
+                    <div class="card-back">
+                        <p class="robot-description">MED-BOT está diseñado para asistir en procedimientos quirúrgicos de alta precisión y diagnosis médica con un 99.97% de exactitud.</p>
+                        <a href="file:///C:/Users/PC/OneDrive/Documents/20%20imagenes%20en%20ps/cuatro%20paguina.html" class="learn-more">Ver Mas</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Robot 4 -->
+            <div class="robot-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1535378620166-273708d44e4c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Robot de Exploración" class="robot-image">
+                        <h3 class="robot-name">EXO-7</h3>
+                        <p class="robot-type">Robot de Exploración</p>
+                    </div>
+                    <div class="card-back">
+                        <p class="robot-description">El EXO-7 está construido para explorar entornos extremos y hostiles, desde las profundidades oceánicas hasta la superficie marciana.</p>
+                        <a href="file:///C:/Users/PC/OneDrive/Documents/20%20imagenes%20en%20ps/quinta%20paguina.html#contact" class="learn-more">Ver Mas</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Robot 5 -->
+            <div class="robot-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Robot de Servicio" class="robot-image">
+                        <h3 class="robot-name">SERVI-O</h3>
+                        <p class="robot-type">Robot de Servicio</p>
+                    </div>
+                    <div class="card-back">
+                        <p class="robot-description">SERVI-O está diseñado para asistir en hogares y espacios públicos, capaz de realizar múltiples tareas domésticas y de servicio.</p>
+                        <a href="file:///C:/Users/PC/OneDrive/Documents/20%20imagenes%20en%20ps/seis%20paguina.html" class="learn-more">Ver Mas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+   
+</body>
+</html>

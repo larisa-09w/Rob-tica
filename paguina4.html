@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <meta name="color-scheme" content="light dark" />
+  <title>SERVI‑O | Plataforma Integral de Servicios y Soporte Operativo</title>
+  <meta name="description" content="SERVI‑O: Página web completa con abundante información. Plantilla HTML profesional para presentar servicios, soluciones, portafolio, precios, preguntas frecuentes y contacto." />
+  <meta name="keywords" content="servicios, soporte, operaciones, mantenimiento, consultoría, logística, atención al cliente, tecnología" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b1020;         /* fondo principal */
+      --surface: #11193a;    /* tarjetas */
+      --accent: #0ea5e9;     /* celeste */
+      --accent-2: #7c3aed;   /* morado */
+      --text: #edf2f7;       /* texto principal */
+      --muted: #a7b0c4;      /* texto secundario */
+      --ok: #10b981;         /* verde */
+      --warn: #f59e0b;       /* amarillo */
+      --danger: #ef4444;     /* rojo */
+      --ring: rgba(14,165,233,.35);
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --shadow-soft: 0 8px 18px rgba(0,0,0,.25);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(14,165,233,.25), transparent),
+                  radial-gradient(900px 500px at 90% -20%, rgba(124,58,237,.2), transparent),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* --- Barra de navegación --- */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(140%) blur(10px);
+      background: linear-gradient(180deg, rgba(17,25,58,.85), rgba(17,25,58,.55));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px;
+    }
+    .brand { display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); }
+    .brand-logo {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: conic-gradient(from 180deg at 50% 50%, var(--accent), var(--accent-2), var(--accent));
+      box-shadow: inset 0 0 12px rgba(255,255,255,.18), 0 6px 16px rgba(14,165,233,.3);
+    }
+    .brand span { font-weight: 800; letter-spacing:.2px; }
+
+    .menu { display:flex; gap:18px; align-items:center; }
+    .menu a {
+      color: var(--muted); text-decoration: none; font-weight:600; font-size: 14px; padding: 8px 10px; border-radius: 10px;
+      transition: all .25s ease;
+    }
+    .menu a:hover { color: var(--text); background: rgba(255,255,255,.06); }
+
+    .cta {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white; border: 0; padding: 10px 16px; border-radius: 12px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 10px 20px rgba(14,165,233,.25);
+      transition: transform .12s ease, filter .25s ease;
+    }
+    .cta:hover { transform: translateY(-1px); filter: brightness(1.05); }
+
+    /* --- Secciones comunes --- */
+    section { padding: 72px 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .kicker { color: var(--accent); font-weight: 700; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3 { line-height: 1.2; margin: 0 0 12px; }
+    h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 900; }
+    h2 { font-size: clamp(26px, 3vw, 36px); font-weight: 800; }
+    h3 { font-size: 20px; font-weight: 700; }
+    p.lead { font-size: clamp(16px, 2.2vw, 19px); color: var(--muted); max-width: 850px; }
+
+    /* --- Hero --- */
+    .hero { padding-top: 64px; padding-bottom: 64px; }
+    .hero-grid { display:grid; grid-template-columns: 1.1fr .9fr; gap: 30px; align-items: center; }
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow);
+    }
+    .hero-illus {
+      min-height: 320px; border-radius: var(--radius);
+      background: radial-gradient(400px 200px at 30% 30%, rgba(14,165,233,.25), transparent),
+                  radial-gradient(300px 180px at 70% 40%, rgba(124,58,237,.25), transparent),
+                  linear-gradient(145deg, #0c152f, #0a0f22);
+      border: 1px solid rgba(255,255,255,.08);
+      position: relative; overflow: hidden; box-shadow: var(--shadow);
+    }
+    .chip {
+      position: absolute; display:flex; gap:10px; align-items:center; padding: 10px 14px; border-radius: 999px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(6px);
+      font-size: 13px; color: var(--text); box-shadow: var(--shadow-soft);
+    }
+    .chip i { display:inline-block; width:10px; height:10px; border-radius:50%; background: var(--ok); }
+    .chip:nth-child(1){ top: 24px; left: 24px; }
+    .chip:nth-child(2){ top: 90px; right: 28px; }
+    .chip:nth-child(3){ bottom: 24px; left: 32px; }
+
+    .badges { display:flex; gap:10px; flex-wrap: wrap; margin-top: 14px; }
+    .badge { font-size:12px; color: var(--text); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); padding:6px 10px; border-radius:999px; }
+
+    /* --- Grids --- */
+    .grid-3 { display:grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-4 { display:grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow-soft);
+    }
+
+    /* --- Listas con iconos --- */
+    .list { list-style: none; padding: 0; margin: 0; }
+    .list li { display:flex; gap:12px; align-items:flex-start; margin: 10px 0; }
+    .list .dot { width:10px; height:10px; border-radius:50%; background: var(--accent); transform: translateY(6px); }
+
+    /* --- Tabla de precios --- */
+    .pricing { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+    .price { border-radius: var(--radius); padding: 22px; position: relative; overflow: hidden; }
+    .price.featured { outline: 2px solid var(--accent); box-shadow: 0 0 0 8px rgba(14,165,233,.15); }
+    .ribbon { position:absolute; right:-46px; top:14px; transform: rotate(35deg); background: var(--accent-2); color: #fff; font-weight:800; padding: 6px 56px; letter-spacing:.08em; }
+    .price h3 { margin-top: 0; }
+    .price .amount { font-size: 36px; font-weight: 900; }
+
+    /* --- Preguntas frecuentes --- */
+    details { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 16px 18px; }
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; font-weight: 700; }
+
+    /* --- Testimonios --- */
+    .testimonial { display:flex; gap: 14px; align-items:flex-start; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: inset 0 0 10px rgba(255,255,255,.18); }
+
+    /* --- Portafolio --- */
+    .portfolio { display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .shot { min-height: 160px; border-radius: 14px; border: 1px solid rgba(255,255,255,.08); background:
+      linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); position: relative; overflow:hidden; }
+    .shot::after{ content:""; position:absolute; inset:0; background: radial-gradient(400px 200px at 20% 0%, rgba(14,165,233,.18), transparent); }
+
+    /* --- Footer --- */
+    footer { padding: 40px 20px; border-top: 1px solid rgba(255,255,255,.08); background: linear-gradient(180deg, rgba(17,25,58,.6), rgba(11,16,32,.8)); }
+    .foot { display:grid; grid-template-columns: 1.2fr .8fr .8fr .8fr; gap: 22px; max-width: 1200px; margin: 0 auto; }
+    .foot h4 { margin: 0 0 10px; }
+    .foot a { color: var(--muted); text-decoration:none; display:block; padding: 4px 0; }
+    .copy { text-align:center; color: var(--muted); margin-top: 28px; font-size: 14px; }
+
+    /* --- Utilidades --- */
+    .muted { color: var(--muted); }
+    .pill { display:inline-block; padding: 6px 12px; border-radius:999px; border: 1px solid rgba(255,255,255,.12); }
+    .surface { background: var(--surface); border-radius: var(--radius); }
+    .center { text-align:center; }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    /* --- Responsivo --- */
+    @media (max-width: 980px){
+      .hero-grid { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+      .pricing { grid-template-columns: 1fr; }
+      .portfolio { grid-template-columns: 1fr 1fr; }
+      .foot { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px){
+      .grid-3, .grid-4, .portfolio { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navegación -->
+  <nav class="nav" aria-label="Navegación principal">
+    <div class="nav-inner">
+      <a class="brand" href="#inicio">
+        <div class="brand-logo" aria-hidden="true"></div>
+        <span>SERVI‑O</span>
+      </a>
+                   </div>
+    </div>
+  </nav>
+
+  <!-- Hero / Inicio -->
+  <header id="inicio" class="hero">
+    <div class="container hero-grid">
+      <div class="hero-card">
+        <span class="kicker">Plataforma integral</span>
+        <h1>SERVI‑O: Servicios y Soporte Operativo para crecer sin fricción</h1>
+        <p class="lead">Somos una plataforma de servicios diseñada para operar procesos críticos de tu negocio con eficiencia y calidad. Unimos <strong>operaciones</strong>, <strong>tecnología</strong> y <strong>personas</strong> para que te enfoques en lo estratégico. Implementamos, medimos y mejoramos continuamente.</p>
+        <div class="badges">
+          <span class="badge">SLA 99.9%</span>
+          <span class="badge">Soporte 24/7</span>
+          <span class="badge">Escalable</span>
+          <span class="badge">ISO 9001</span>
+          <span class="badge">On‑prem & Cloud</span>
+        </div>
+      </div>
+      <div class="hero-illus" aria-hidden="true">
+        <div class="chip"><i></i>Monitoreo en tiempo real</div>
+        <div class="chip"><i style="background:var(--accent-2)"></i>Automatización de flujos</div>
+        <div class="chip"><i style="background:var(--warn)"></i>Alertas proactivas</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sección: Servicios -->
+  <section id="servicios">
+    <div class="container">
+      <span class="kicker">Qué hacemos</span>
+      <h2>Servicios clave para tus operaciones</h2>
+      <p class="lead">Abarcamos el ciclo completo: diseño del proceso, documentación, ejecución, monitoreo, mejora continua y reporte ejecutivo. Cada servicio se integra con tus sistemas y KPI.</p>
+      <div class="grid-3" style="margin-top:18px;">
+        <div class="card">
+          <h3>Atención al cliente omnicanal</h3>
+          <p>Gestión de casos por chat, correo, llamadas y redes. Scripts dinámicos, NPS/CSAT, enrutamiento inteligente y base de conocimiento viva.</p>
+          <ul class="list">
+            <li><span class="dot"></span>Tiempo de primera respuesta &lt; 2 min.</li>
+            <li><span class="dot"></span>Integración con CRM (Zendesk, Freshdesk, HubSpot).</li>
+            <li><span class="dot"></span>Reportes diarios y semanales.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Back‑Office y BPO</h3>
+          <p>Contabilidad operativa, conciliaciones, control de calidad de datos, digitación de pedidos, verificación KYC/AML y gestión documental.</p>
+          <ul class="list">
+            <li><span class="dot"></span>Cuadros de mando con KPI en vivo.</li>
+            <li><span class="dot"></span>Protocolos de seguridad de datos.</li>
+            <li><span class="dot"></span>Flujos aprobatorios auditables.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Logística y última milla</h3>
+          <p>Planificación de rutas, tracking, coordinación con proveedores y gestión de incidencias para e‑commerce y retail.</p>
+          <ul class="list">
+            <li><span class="dot"></span>Optimización de rutas (ETA, ventanas horarias).</li>
+            <li><span class="dot"></span>Panel de control para despachos.</li>
+            <li><span class="dot"></span>Indicadores OTIF y costo por entrega.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Soporte técnico y mesa de ayuda</h3>
+          <p>Niveles 1‑2‑3, gestión de incidentes, patching, inventario y CMDB. Documentación y base de conocimiento actualizada.</p>
+          <ul class="list">
+            <li><span class="dot"></span>Catálogo de servicios con SLA.</li>
+            <li><span class="dot"></span>Integración ITSM (Jira, ServiceNow).</li>
+            <li><span class="dot"></span>Escalamiento automatizado.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Automatización y RPA</h3>
+          <p>Robots para tareas repetitivas, extracción de datos, conciliaciones y notificaciones. Ahorro de tiempo y reducción de errores.</p>
+          <ul class="list">
+            <li><span class="dot"></span>Evaluación de procesos candidata.</li>
+            <li><span class="dot"></span>ROI en 60‑90 días promedio.</li>
+            <li><span class="dot"></span>Bots atendidos y desatendidos.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Formación y mejora continua</h3>
+          <p>Academia interna, onboarding acelerado, certificaciones y auditorías cruzadas. Planes de capacitación personalizados.</p>
+          <ul class="list">
+            <li><span class="dot"></span>Rutas de aprendizaje por rol.</li>
+            <li><span class="dot"></span>Evaluaciones trimestrales.</li>
+            <li><span class="dot"></span>Documentación estandarizada (SOP).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección: Soluciones -->
+  <section id="soluciones">
+    <div class="container">
+      <span class="kicker">Cómo lo resolvemos</span>
+      <h2>Soluciones modulares que se adaptan a tu negocio</h2>
+      <p class="lead">Activamos módulos según tu etapa: arranque, crecimiento o escalamiento multinivel. Interoperamos con tus herramientas o te proveemos un stack listo para usar.</p>
+      <div class="grid-4" style="margin-top:16px;">
+        <div class="card">
+          <h3>Onboarding Express</h3>
+          <p>Implementación en 14‑30 días con mapa de procesos, SLA y playbooks. Migración de datos y configuración inicial.</p>
+        </div>
+        <div class="card">
+          <h3>Control de Calidad 360°</h3>
+          <p>Muéstreos, checklists, calibraciones y scorecards. Retroalimentación y acciones correctivas documentadas.</p>
+        </div>
+        <div class="card">
+          <h3>Observabilidad Operativa</h3>
+          <p>Tableros en tiempo real, alertas proactivas y reporting ejecutivo. Integraciones por API.</p>
+        </div>
+        <div class="card">
+          <h3>Seguridad y Cumplimiento</h3>
+          <p>Gestión de acceso, cifrado, cumplimiento ISO, auditorías y políticas de retención de datos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección: Portafolio -->
+  <section id="portafolio">
+    <div class="container">
+      <span class="kicker">Casos reales</span>
+      <h2>Portafolio y resultados</h2>
+      <p class="lead">Una muestra de entregables y resultados típicos. Reemplaza los textos por tus proyectos reales y adjunta imágenes si deseas.</p>
+      <div class="portfolio" style="margin-top:14px;">
+        <div class="shot card">
+          <h3>Proyecto A: Mesa de Ayuda 24/7</h3>
+          <p class="muted">Reducción del 38% en tiempo de resolución y +21 p.p. en CSAT en 4 meses. Integración con ServiceNow y base de conocimiento.</p>
+        </div>
+        <div class="shot card">
+          <h3>Proyecto B: RPA en Back‑Office</h3>
+          <p class="muted">Automatización de conciliaciones diarias: ahorro de 120 horas/mes y disminución de errores en 92%.</p>
+        </div>
+        <div class="shot card">
+          <h3>Proyecto C: Última Milla</h3>
+          <p class="muted">Optimización de rutas para e‑commerce con OTIF &gt; 96% y reducción del costo por entrega en 18%.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección: Precios -->
+  <section id="precios">
+    <div class="container">
+      <span class="kicker">Planes</span>
+      <h2>Precios simples y transparentes</h2>
+      <p class="lead">Comienza con un plan y escala cuando lo necesites. Todos incluyen soporte, reportes y un gestor de cuenta.</p>
+      <div class="pricing" style="margin-top:16px;">
+        <div class="price card">
+          <h3>Esencial</h3>
+          <p class="muted">Para iniciar operaciones con base sólida.</p>
+          <p class="amount">$299<span class="muted">/mes</span></p>
+          <ul class="list">
+            <li><span class="dot"></span>8x5 soporte</li>
+            <li><span class="dot"></span>Tablero básico</li>
+            <li><span class="dot"></span>Documentación inicial</li>
+          </ul>
+          <button class="cta" onclick="goContact('Esencial')">Elegir</button>
+        </div>
+        <div class="price card featured">
+          <div class="ribbon">Popular</div>
+          <h3>Profesional</h3>
+          <p class="muted">Para crecer con automatización.</p>
+          <p class="amount">$799<span class="muted">/mes</span></p>
+          <ul class="list">
+            <li><span class="dot"></span>Soporte 24/7</li>
+            <li><span class="dot"></span>RPA incluido</li>
+            <li><span class="dot"></span>Reportes avanzados</li>
+          </ul>
+          <button class="cta" onclick="goContact('Profesional')">Elegir</button>
+        </div>
+        <div class="price card">
+          <h3>Empresarial</h3>
+          <p class="muted">A la medida y con SLA dedicados.</p>
+          <p class="amount">A convenir</p>
+          <ul class="list">
+            <li><span class="dot"></span>SLA personalizados</li>
+            <li><span class="dot"></span>Integraciones a medida</li>
+            <li><span class="dot"></span>Arquitectura híbrida</li>
+          </ul>
+          <button class="cta" onclick="goContact('Empresarial')">Solicitar demo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección: Preguntas frecuentes -->
+  <section id="faq">
+    <div class="container">
+      <span class="kicker">Dudas comunes</span>
+      <h2>Preguntas frecuentes</h2>
+      <details>
+        <summary>¿Qué diferencia a SERVI‑O de un proveedor tradicional?</summary>
+        <p>Operamos con enfoque de plataforma: módulos interoperables, métricas en vivo y ciclos de mejora continua. No solo ejecutamos; diseñamos, medimos y optimizamos.</p>
+      </details>
+      <details>
+        <summary>¿Cómo es el proceso de implementación?</summary>
+        <p>Iniciamos con diagnóstico, mapeo de procesos y definición de KPI. Luego, configuramos herramientas, documentamos SOP, realizamos capacitación y pasamos a producción con seguimiento cercano.</p>
+      </details>
+      <details>
+        <summary>¿Ofrecen soporte 24/7?</summary>
+        <p>Sí. Contamos con turnos rotativos, monitoreo y alertas proactivas. Los SLA se acuerdan por servicio y criticidad.</p>
+      </details>
+      <details>
+        <summary>¿Pueden integrarse con mis sistemas?</summary>
+        <p>Sí. Trabajamos con APIs, conectores y flujos ETL. También proveemos un stack listo si no dispones de herramientas.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Sección: Testimonios -->
+  <section id="testimonios">
+    <div class="container">
+      <span class="kicker">Confianza</span>
+      <h2>Lo que dicen nuestros clientes</h2>
+      <div class="grid-3" style="margin-top:14px;">
+        <div class="card testimonial">
+          <div class="avatar" aria-hidden="true"></div>
+          <div>
+            <h3>María G.</h3>
+            <p class="muted">“Con SERVI‑O estandarizamos el soporte y mejoramos el NPS en 25 puntos. La visibilidad de KPI fue clave.”</p>
+          </div>
+        </div>
+        <div class="card testimonial">
+          <div class="avatar" aria-hidden="true"></div>
+          <div>
+            <h3>Carlos R.</h3>
+            <p class="muted">“Automatizamos tareas repetitivas y liberamos al equipo para proyectos de mayor valor. Implementación rápida.”</p>
+          </div>
+        </div>
+        <div class="card testimonial">
+          <div class="avatar" aria-hidden="true"></div>
+          <div>
+            <h3>Lucía S.</h3>
+            <p class="muted">“La mesa de ayuda 24/7 redujo tiempos y mejoró la satisfacción del usuario final.”</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección: Contacto -->
+  <section id="contacto">
+    <div class="container">
+      <span class="kicker">Conversemos</span>
+      <h2>Contacto y cotización</h2>
+      <p class="lead">Completa el formulario y te enviaremos una propuesta ajustada a tus necesidades. También puedes escribirnos por WhatsApp o correo.</p>
+      <div class="grid-3" style="margin-top:14px;">
+        <form class="card" onsubmit="sendLead(event)">
+          <label class="sr-only" for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" placeholder="Tu nombre" required style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.03); color: var(--text); margin-bottom:10px;" />
+
+          <label class="sr-only" for="email">Correo</label>
+          <input id="email" name="email" type="email" placeholder="Correo" required style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.03); color: var(--text); margin-bottom:10px;" />
+
+          <label class="sr-only" for="plan">Plan</label>
+          <select id="plan" name="plan" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.03); color: var(--text); margin-bottom:10px;">
+            <option value="Esencial">Esencial</option>
+            <option value="Profesional" selected>Profesional</option>
+            <option value="Empresarial">Empresarial</option>
+          </select>
+
+          <label class="sr-only" for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="5" placeholder="Cuéntanos sobre tu proyecto…" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.03); color: var(--text); margin-bottom:10px;"></textarea>
+
+          <button class="cta" type="submit">Enviar solicitud</button>
+          <p id="form-msg" class="muted" style="margin-top:8px;">Respondemos en &lt; 24 horas hábiles.</p>
+        </form>
+
+        <div class="card">
+          <h3>Información de contacto</h3>
+          <ul class="list">
+            <li><span class="dot"></span><strong>Correo:</strong> hola@servi-o.com</li>
+            <li><span class="dot"></span><strong>WhatsApp:</strong> +504 0000‑0000</li>
+            <li><span class="dot"></span><strong>Horario:</strong> Lun‑Vie 8:00‑18:00</li>
+            <li><span class="dot"></span><strong>Dirección:</strong> Centro de Negocios, Tegucigalpa</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Ventajas de elegirnos</h3>
+          <ul class="list">
+            <li><span class="dot"></span>Transparencia total en KPI y costos.</li>
+            <li><span class="dot"></span>Equipo senior y procesos probados.</li>
+            <li><span class="dot"></span>Escalabilidad sin fricción.</li>
+            <li><span class="dot"></span>Enfoque en resultados medibles.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot">
+      <div>
+        <a class="brand" href="#inicio"><div class="brand-logo" aria-hidden="true"></div><span>SERVI‑O</span></a>
+        <p class="muted">Plataforma de servicios y soporte operativo. Operamos, medimos y mejoramos tus procesos para que tu negocio avance.</p>
+      </div>
+         </div>
+     </footer>
+
+  <!-- Datos estructurados -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "SERVI‑O",
+    "url": "https://servi-o.example",
+    "logo": "https://servi-o.example/logo.png",
+    "sameAs": ["https://www.facebook.com/servio", "https://www.linkedin.com/company/servio"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+50400000000",
+      "contactType": "customer service",
+      "areaServed": "HN",
+      "availableLanguage": ["es", "en"]
+    }
+  }
+  </script>
+
+  <!-- JS mínimo -->
+  <script>
+    // año actual
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function goContact(plan){
+      const sel = document.getElementById('plan');
+      if(sel){ sel.value = plan; }
+      document.getElementById('contacto').scrollIntoView({behavior:'smooth'});
+    }
+
+    function sendLead(e){
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      const msg = document.getElementById('form-msg');
+      // Aquí integras con tu backend o servicio de formularios
+      console.log('Lead enviado:', data);
+      msg.textContent = '¡Gracias! Hemos recibido tu solicitud.';
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>

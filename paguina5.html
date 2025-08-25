@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS-9 - Robot Humanoide de Vanguardia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #7e57c2;
+            --secondary: #5e35b1;
+            --accent: #ff4081;
+            --dark: #121212;
+            --light: #f5f5f7;
+            --text: #e0e0e0;
+            --text-secondary: #b0b0b0;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(94, 53, 177, 0.2) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(126, 87, 194, 0.2) 0%, transparent 25%);
+        }
+        
+        header {
+            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.98), rgba(18, 18, 18, 0.9));
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .logo-icon {
+            font-size: 2.2rem;
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+        
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            font-size: 1.1rem;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 700px;
+            z-index: 2;
+        }
+        
+        .hero h2 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: var(--text);
+            max-width: 600px;
+        }
+        
+        .hero-image {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45%;
+            max-width: 650px;
+            z-index: 1;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 20px rgba(126, 87, 194, 0.5));
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 20px rgba(126, 87, 194, 0.4);
+            font-size: 1.1rem;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(126, 87, 194, 0.6);
+        }
+        
+        .btn-accent {
+            background: linear-gradient(to right, var(--accent), #ff6b9d);
+            box-shadow: 0 5px 20px rgba(255, 64, 129, 0.4);
+        }
+        
+        .btn-accent:hover {
+            box-shadow: 0 8px 25px rgba(255, 64, 129, 0.6);
+        }
+        
+        section {
+            padding: 6rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .section-title p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 5rem;
+        }
+        
+        .spec-card {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 15px;
+            padding: 2.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(126, 87, 194, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .spec-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(126, 87, 194, 0.2);
+        }
+        
+        .spec-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .spec-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 1.2rem;
+            color: var(--light);
+        }
+        
+        .spec-card p {
+            color: var(--text-secondary);
+            flex-grow: 1;
+            font-size: 1.1rem;
+        }
+        
+        .applications {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 20px;
+            padding: 4rem;
+            margin: 4rem 0;
+            border: 1px solid rgba(126, 87, 194, 0.2);
+        }
+        
+        .applications h3 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            text-align: center;
+        }
+        
+        .app-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .app-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(40, 40, 40, 0.5);
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+        
+        .app-item:hover {
+            transform: translateX(10px);
+        }
+        
+        .app-icon {
+            color: var(--accent);
+            font-size: 2rem;
+            min-width: 50px;
+        }
+        
+        .app-item p {
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 4rem 0;
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 1.5rem 2rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .comparison-table th {
+            background: rgba(126, 87, 194, 0.2);
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(126, 87, 194, 0.1);
+        }
+        
+        .highlight {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin: 4rem 0;
+        }
+        
+        .feature {
+            background: rgba(30, 30, 30, 0.7);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary);
+            transition: transform 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature h3 {
+            font-size: 1.7rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+        }
+        
+        .feature p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .ai-section {
+            background: linear-gradient(to right, rgba(30, 30, 30, 0.8), rgba(40, 40, 40, 0.8));
+            border-radius: 20px;
+            padding: 4rem;
+            margin: 5rem 0;
+            border: 1px solid rgba(126, 87, 194, 0.3);
+        }
+        
+        .ai-section h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .ai-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .ai-capabilities {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .capability {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .capability-icon {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+        
+        footer {
+            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.98), rgba(18, 18, 18, 1));
+            padding: 5rem 3rem 2rem;
+            margin-top: 5rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            font-size: 1.8rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 1100px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 5rem;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+            }
+            
+            .hero-image {
+                position: relative;
+                width: 80%;
+                margin: 3rem auto 0;
+                transform: none;
+                right: auto;
+            }
+            
+            nav ul {
+                gap: 1.5rem;
+            }
+            
+            .ai-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 2rem;
+            }
+            
+            .hero h2 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+            
+            .applications, .ai-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.8rem;
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .spec-card, .feature {
+                padding: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-robot"></i></div>
+                <h1>NEXUS-9</h1>
+            </div>
+            <nav>
+              
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h2>NEXUS-9: El Futuro de la Interacción Humano-Robot</h2>
+            <p>El robot humanoide con inteligencia artificial avanzada capaz de interactuar con humanos y aprender de su entorno. Diseñado para coexistir y colaborar con personas en entornos dinámicos.</p>
+                   </div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUJQpNY7putZJy5Qb_Lo6pyofNJu68xIHj0Q&s" alt="Robot Humanoide NEXUS-9" class="hero-image">
+    </section>
+    
+    <section id="specs">
+        <div class="section-title">
+            <h2>Especificaciones Técnicas</h2>
+            <p>Conozca las capacidades técnicas del robot humanoide más avanzado del mercado</p>
+        </div>
+        
+        <div class="specs-grid">
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-brain"></i></div>
+                <h3>Inteligencia Artificial</h3>
+                <p>Sistema de IA con aprendizaje profundo y redes neuronales que permiten la adaptación continua a nuevos entornos y situaciones.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-eye"></i></div>
+                <h3>Visión Avanzada</h3>
+                <p>Sistema de visión por computadora con cámaras de 360° y sensores de profundidad para reconocimiento de objetos y navegación autónoma.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-hands"></i></div>
+                <h3>Manipulación Precisa</h3>
+                <p>Manos articuladas con sensores táctiles que permiten manipular objetos con la precisión y delicadeza de la mano humana.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-walking"></i></div>
+                <h3>Movimiento Bípedo</h3>
+                <p>Sistema de locomoción bípeda avanzada que permite moverse de forma natural en entornos diseñados para humanos.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-comments"></i></div>
+                <h3>Interacción Natural</h3>
+                <p>Reconocimiento de voz natural y generación de lenguaje con capacidad para mantener conversaciones contextuales.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-battery-full"></i></div>
+                <h3>Autonomía Energética</h3>
+                <p>Baterías de estado sólido que proporcionan hasta 48 horas de funcionamiento continuo y recarga rápida inalámbrica.</p>
+            </div>
+        </div>
+        
+        <div class="applications">
+            <h3>Aplicaciones Principales</h3>
+            <div class="app-list">
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-hands-helping"></i></div>
+                    <p>Asistencia a personas mayores y con movilidad reducida</p>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-user-graduate"></i></div>
+                    <p>Compañero educativo y tutor personalizado</p>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-briefcase-medical"></i></div>
+                    <p>Asistencia en entornos médicos y hospitalarios</p>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-headset"></i></div>
+                    <p>Atención al cliente y recepción en entornos corporativos</p>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-home"></i></div>
+                    <p>Asistente doméstico inteligente para tareas del hogar</p>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-flask"></i></div>
+                    <p>Investigación y desarrollo en entornos científicos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="ai">
+        <div class="section-title">
+            <h2>Inteligencia Artificial</h2>
+            <p>El sistema cognitivo más avanzado en un robot humanoide</p>
+        </div>
+        
+        <div class="ai-section">
+            <h3>Capacidades de Aprendizaje</h3>
+            <div class="ai-content">
+                <div class="ai-capabilities">
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-robot"></i></div>
+                        <p>Aprendizaje por refuerzo profundo para adaptarse a nuevas tareas</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-database"></i></div>
+                        <p>Base de conocimiento con más de 10 millones de conceptos interrelacionados</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-language"></i></div>
+                        <p>Comprensión y generación de lenguaje natural en 47 idiomas</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-users"></i></div>
+                        <p>Reconocimiento de expresiones faciales y tono de voz para interacciones empáticas</p>
+                    </div>
+                </div>
+                
+                <div class="ai-capabilities">
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-lightbulb"></i></div>
+                        <p>Toma de decisiones contextual con análisis de múltiples variables</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-project-diagram"></i></div>
+                        <p>Arquitectura de red neuronal multimodal para procesamiento simultáneo</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-memory"></i></div>
+                        <p>Memoria a largo plazo con recuperación contextual de experiencias pasadas</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-shield-alt"></i></div>
+                        <p>Sistemas éticos integrados para la toma de decisiones responsables</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="comparison">
+        <div class="section-title">
+            <h2>Comparativa Tecnológica</h2>
+            <p>Análisis comparativo entre el NEXUS-9 y otros humanoides del mercado</p>
+        </div>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Parámetro</th>
+                    <th>NEXUS-9</th>
+                    <th>Modelo Competidor A</th>
+                    <th>Modelo Competidor B</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Grados de libertad</td>
+                    <td class="highlight">56</td>
+                    <td>32</td>
+                    <td>40</td>
+                </tr>
+                <tr>
+                    <td>Autonomía (horas)</td>
+                    <td class="highlight">48</td>
+                    <td>24</td>
+                    <td>36</td>
+                </tr>
+                <tr>
+                    <td>Idiomas soportados</td>
+                    <td>47</td>
+                    <td>12</td>
+                    <td class="highlight">50</td>
+                </tr>
+                <tr>
+                    <td>Capacidad de carga</td>
+                    <td>25 kg</td>
+                    <td class="highlight">30 kg</td>
+                    <td>20 kg</td>
+                </tr>
+                <tr>
+                    <td>Reconocimiento facial</td>
+                    <td class="highlight">99.7%</td>
+                    <td>97.3%</td>
+                    <td>98.5%</td>
+                </tr>
+                <tr>
+                    <td>Velocidad de movimiento</td>
+                    <td>5 km/h</td>
+                    <td class="highlight">6 km/h</td>
+                    <td>4.5 km/h</td>
+                </tr>
+                <tr>
+                    <td>Capacidad de aprendizaje</td>
+                    <td class="highlight">Aprendizaje continuo</td>
+                    <td>Aprendizaje supervisado</td>
+                    <td>Aprendizaje por refuerzo</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section id="features">
+        <div class="section-title">
+            <h2>Características Avanzadas</h2>
+            <p>Innovaciones tecnológicas que hacen del NEXUS-9 la elección ideal</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>Arquitectura Modular</h3>
+                <p>Diseño modular que permite actualizar componentes individuales sin necesidad de reemplazar el sistema completo, garantizando una inversión a largo plazo.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Seguridad Avanzada</h3>
+                <p>Sistemas de seguridad redundantes con sensores de fuerza par para detección de colisiones y protocolos para interacción segura con humanos.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Personalización Emocional</h3>
+                <p>Capacidad para adaptar respuestas emocionales y patrones de interacción según las preferencias del usuario, creando experiencias más naturales.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Conectividad 5G/6G</h3>
+                <p>Comunicación de ultra baja latencia para operación en la nube y colaboración con otros dispositivos IoT en entornos inteligentes.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Actualizaciones OTA</h3>
+                <p>Actualizaciones remotas del sistema que incorporan nuevas capacidades y mejoras sin interrumpir el funcionamiento habitual.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Eco-Sostenibilidad</h3>
+                <p>Diseño con materiales reciclables y consumo energético optimizado, con una huella de carbono un 60% menor que modelos similares.</p>
+            </div>
+        </div>
+    </section>
+    
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>NEXUS-9</h3>
+                <p>El robot humanoide de vanguardia con inteligencia artificial avanzada para interactuar y colaborar con humanos en entornos dinámicos.</p>
+               
+            </div>
+            
+          
+            
+           
+        </div>
+        
+      
+    </footer>
+</body>
+</html>

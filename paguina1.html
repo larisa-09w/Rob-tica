@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MED-BOT - Robot Médico de Precisión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #2a7cc7;
+            --secondary: #1a5a9c;
+            --accent: #32cd32;
+            --dark: #0a1929;
+            --light: #f8f9fa;
+            --text: #333333;
+            --text-light: #6c757d;
+        }
+        
+        body {
+            background-color: #f0f8ff;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            padding: 1.2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            font-size: 2.2rem;
+            color: white;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            font-size: 1.1rem;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            background: url('https://images.unsplash.com/photo-1582719471384-894fbb16e074?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+            background-size: cover;
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(42, 124, 199, 0.85), rgba(26, 90, 156, 0.8));
+        }
+        
+        .hero-content {
+            max-width: 650px;
+            z-index: 2;
+            color: white;
+        }
+        
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 20px rgba(50, 205, 50, 0.4);
+            font-size: 1.1rem;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(50, 205, 50, 0.6);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        section {
+            padding: 5rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+        }
+        
+        .section-title p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 5rem;
+        }
+        
+        .spec-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            border-top: 5px solid var(--primary);
+        }
+        
+        .spec-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .spec-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .spec-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 1.2rem;
+            color: var(--dark);
+        }
+        
+        .spec-card p {
+            color: var(--text-light);
+            flex-grow: 1;
+            font-size: 1.1rem;
+        }
+        
+        .applications {
+            background: linear-gradient(to right, #e6f2ff, #f0f8ff);
+            border-radius: 20px;
+            padding: 4rem;
+            margin: 4rem 0;
+        }
+        
+        .applications h3 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            text-align: center;
+        }
+        
+        .app-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .app-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .app-item:hover {
+            transform: translateX(10px);
+        }
+        
+        .app-icon {
+            color: var(--accent);
+            font-size: 2rem;
+            min-width: 50px;
+        }
+        
+        .app-content h4 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+        }
+        
+        .app-content p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 4rem 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 1.5rem 2rem;
+            text-align: left;
+            border-bottom: 1px solid #e6f2ff;
+        }
+        
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f0f8ff;
+        }
+        
+        .highlight {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin: 4rem 0;
+        }
+        
+        .feature {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid var(--accent);
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature h3 {
+            font-size: 1.7rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .feature p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .technology-section {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 20px;
+            padding: 4rem;
+            margin: 5rem 0;
+            color: white;
+        }
+        
+        .technology-section h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .tech-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .tech-capabilities {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .capability {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .capability-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .capability p {
+            font-size: 1.1rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+        
+        footer {
+            background: var(--dark);
+            padding: 5rem 3rem 2rem;
+            margin-top: 5rem;
+            color: white;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #b0b0b0;
+            margin-bottom: 1rem;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            font-size: 1.8rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b0b0b0;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 1100px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 5rem;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+            }
+            
+            .tech-content {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 2rem;
+            }
+            
+            .hero h2 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+            
+            .applications, .technology-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.8rem;
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .spec-card, .feature {
+                padding: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-robot"></i></div>
+                <h1>MED-BOT</h1>
+            </div>
+            <nav>
+              
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h2>MED-BOT: Precisión Médica Robótica</h2>
+            <p>El robot médico diseñado para asistir en procedimientos quirúrgicos de alta precisión y diagnosis médica con un 99.97% de exactitud.</p>
+                   </div>
+    </section>
+    
+    <section id="specs">
+        <div class="section-title">
+            <h2>Especificaciones Técnicas</h2>
+            <p>Conozca las capacidades técnicas del robot médico más avanzado del mercado</p>
+        </div>
+        
+        <div class="specs-grid">
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-syringe"></i></div>
+                <h3>Precisión Quirúrgica</h3>
+                <p>Capacidad de realizar incisiones y suturas con precisión submilimétrica (0.1mm) superior a la mano humana.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-eye"></i></div>
+                <h3>Visión Avanzada</h3>
+                <p>Sistema de visión con aumento 10x, imágenes térmicas y espectrales para identificación precisa de tejidos.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-brain"></i></div>
+                <h3>IA Diagnóstica</h3>
+                <p>Algoritmos de inteligencia artificial con capacidad de diagnóstico asistido con 99.7% de precisión.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-procedures"></i></div>
+                <h3>Multiprocedimientos</h3>
+                <p>Capacidad para realizar más de 50 procedimientos quirúrgicos diferentes con cambio rápido de instrumental.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Esterilización Integral</h3>
+                <p>Sistema autónomo de esterilización UV y por plasma después de cada procedimiento.</p>
+            </div>
+            
+            <div class="spec-card">
+                <div class="spec-icon"><i class="fas fa-network-wired"></i></div>
+                <h3>Telemedicina</h3>
+                <p>Capacidad para ser operado remotamente con latencia inferior a 100ms para procedimientos a distancia.</p>
+            </div>
+        </div>
+        
+        <div class="applications">
+            <h3>Aplicaciones Médicas</h3>
+            <div class="app-list">
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-heart"></i></div>
+                    <div class="app-content">
+                        <h4>Cirugía Cardíaca</h4>
+                        <p>Procedimientos mínimamente invasivos con precisión superior en bypass y válvulas cardíacas.</p>
+                    </div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-brain"></i></div>
+                    <div class="app-content">
+                        <h4>Neurocirugía</h4>
+                        <p>Intervenciones cerebrales de alta precisión con monitorización en tiempo real.</p>
+                    </div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-lungs"></i></div>
+                    <div class="app-content">
+                        <h4>Cirugía Torácica</h4>
+                        <p>Resecciones pulmonares y procedimientos oncológicos con márgenes precisos.</p>
+                    </div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-x-ray"></i></div>
+                    <div class="app-content">
+                        <h4>Biopsias Guiadas</h4>
+                        <p>Extracción de muestras tisulares con guía por imagen y precisión milimétrica.</p>
+                    </div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="app-content">
+                        <h4>Procedimientos Ortopédicos</h4>
+                        <p>Reemplazos articulares y fijaciones óseas con alineación perfecta.</p>
+                    </div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon"><i class="fas fa-microscope"></i></div>
+                    <div class="app-content">
+                        <h4>Microcirugía</h4>
+                        <p>Reconstrucciones vasculares y nerviosas con aumentos de hasta 40x.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="stats">
+        <div class="section-title">
+            <h2>Resultados Comprobados</h2>
+            <p>Estadísticas que demuestran la eficacia de MED-BOT en entornos médicos reales</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">99.7%</div>
+                <div class="stat-label">Precisión diagnóstica</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">45%</div>
+                <div class="stat-label">Redución tiempo recuperación</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">68%</div>
+                <div class="stat-label">Menor pérdida sanguínea</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8500+</div>
+                <div class="stat-label">Procedimientos realizados</div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="technology">
+        <div class="section-title">
+            <h2>Tecnología Avanzada</h2>
+            <p>Innovaciones tecnológicas que hacen de MED-BOT un sistema revolucionario</p>
+        </div>
+        
+        <div class="technology-section">
+            <h3>Sistemas Integrados</h3>
+            <div class="tech-content">
+                <div class="tech-capabilities">
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas5 fa-hands"></i></div>
+                        <p>Sistema háptico de retroalimentación que permite al cirujano sentir la resistencia de los tejidos</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-project-diagram"></i></div>
+                        <p>Integración con sistemas PACS y HIS para acceso completo al historial del paciente</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-wave-square"></i></div>
+                        <p>Supervisión constante de signos vitales con alertas predictivas de complicaciones</p>
+                    </div>
+                </div>
+                
+                <div class="tech-capabilities">
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-dna"></i></div>
+                        <p>Análisis genético en tiempo real para personalización de tratamientos durante cirugías</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-robot"></i></div>
+                        <p>Autonomía asistida para tareas rutinarias permitiendo al personal médico enfocarse en decisiones críticas</p>
+                    </div>
+                    <div class="capability">
+                        <div class="capability-icon"><i class="fas fa-shield-virus"></i></div>
+                        <p>Protocolos de seguridad redundantes con verificación constante de cada movimiento</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="features">
+        <div class="section-title">
+            <h2>Características Avanzadas</h2>
+            <p>Innovaciones que hacen de MED-BOT la elección ideal para entornos médicos</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>Interfaz Intuitiva</h3>
+                <p>Diseño centrado en el usuario con pantallas táctiles, reconocimiento de voz y controles ergonómicos para reducir la curva de aprendizaje.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Actualizaciones Remotas</h3>
+                <p>Mejoras continuas del software con actualizaciones que añaden nuevos procedimientos y mejoras de seguridad sin interrumpir operaciones.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Modularidad</h3>
+                <p>Sistema de instrumentos intercambiables que permite adaptar el robot para diferentes especialidades médicas.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Regulación Aprobada</h3>
+                <p>Certificación completa por agencias reguladoras internacionales para uso en procedimientos médicos humanos.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Base de Conocimiento Global</h3>
+                <p>Acceso a una base de datos anónima de millones de procedimientos para optimizar decisiones quirúrgicas.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>Asistencia Virtual</h3>
+                <p>Sistema de realidad aumentada que superpone imágenes diagnósticas y guías procedurales en el campo visual del cirujano.</p>
+            </div>
+        </div>
+        
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>MED-BOT</th>
+                        <th>Sistema Quirúrgico A</th>
+                        <th>Sistema Quirúrgico B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Precisión de movimiento (mm)</td>
+                        <td class="highlight">0.1</td>
+                        <td>0.5</td>
+                        <td>0.3</td>
+                    </tr>
+                    <tr>
+                        <td>Tiempo de configuración (min)</td>
+                        <td class="highlight">8</td>
+                        <td>20</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>Integración con sistemas hospitalarios</td>
+                        <td class="highlight">Completa</td>
+                        <td>Parcial</td>
+                        <td>Parcial</td>
+                    </tr>
+                    <tr>
+                        <td>Capacidad de teleoperación (km)</td>
+                        <td class="highlight">Ilimitada</td>
+                        <td>100</td>
+                        <td>250</td>
+                    </tr>
+                    <tr>
+                        <td>Número de procedimientos disponibles</td>
+                        <td class="highlight">50+</td>
+                        <td>28</td>
+                        <td>35</td>
+                    </tr>
+                    <tr>
+                        <td>Retroalimentación háptica</td>
+                        <td class="highlight">Sí</td>
+                        <td>No</td>
+                        <td>Sí</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MED-BOT</h3>
+                <p>El sistema robótico médico de última generación diseñado para mejorar los resultados de los pacientes y optimizar los flujos de trabajo quirúrgico.</p>
+               
+            </div>
+            
+           
+            
+           
+        </div>
+        
+      
+    </footer>
+</body>
+</html>
